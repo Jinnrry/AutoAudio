@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Rules extends LitePalSupport {
 
-    private static final int OPEN = 2;
-    private static final int CLOSE = 1;
+    public static final int OPEN = 2;
+    public static final int CLOSE = 1;
     private int id;
 
     @Column(nullable = true)
@@ -22,6 +22,9 @@ public class Rules extends LitePalSupport {
     private int hour;
     @Column(nullable = true)
     private int min;
+    @Column(nullable = true)
+    private int week;
+
     private int audio;
     private int ring;
     private int clock;
@@ -74,6 +77,13 @@ public class Rules extends LitePalSupport {
         this.id = id;
     }
 
+    public int getWeek() {
+        return week;
+    }
+
+    public void setWeek(int week) {
+        this.week = week;
+    }
 
     public int getAudio() {
         return audio;
@@ -100,7 +110,7 @@ public class Rules extends LitePalSupport {
     }
 
 
-    public static boolean addRules(int year, int month, int day, int hour, int min, int audio, int ring, int clock) {
+    public static boolean addRules(int year, int month, int day, int hour, int min, int week, int audio, int ring, int clock) {
         Rules rules = new Rules();
         if (year > 0) rules.setYear(year);
         if (month > 0) rules.setMonth(month);
@@ -110,11 +120,12 @@ public class Rules extends LitePalSupport {
         if (audio > 0) rules.setAudio(audio);
         if (ring > 0) rules.setRing(audio);
         if (clock > 0) rules.setClock(clock);
+        if (week > 0) rules.setWeek(week);
         return rules.save();
     }
 
 
-    public static int[] checkStatus(int year, int month, int day, int hour, int min) {
+    public static int[] checkStatus(int year, int month, int day, int hour, int min, int week) {
         int ring = 0;
         int audio = 0;
         int clock = 0;
@@ -125,6 +136,7 @@ public class Rules extends LitePalSupport {
                 .where("day = ? or day = 0", String.valueOf(day))
                 .where("hour = ? or hour = 0", String.valueOf(hour))
                 .where("min = ? or min = 0", String.valueOf(min))
+                .where("week = ? or week = 0", String.valueOf(week))
                 .find(Rules.class);
         for (Rules rule : rulesList) {
             if (rule.getAudio() == Rules.OPEN && audio == 0) {
@@ -143,9 +155,8 @@ public class Rules extends LitePalSupport {
                 clock = Rules.CLOSE;
             }
         }
-        return new int[]{audio,ring,clock};
+        return new int[]{audio, ring, clock};
     }
-
 
     @Override
     public String toString() {
@@ -156,6 +167,7 @@ public class Rules extends LitePalSupport {
                 ", day=" + day +
                 ", hour=" + hour +
                 ", min=" + min +
+                ", week=" + week +
                 ", audio=" + audio +
                 ", ring=" + ring +
                 ", clock=" + clock +

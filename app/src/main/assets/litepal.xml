@@ -33,6 +33,7 @@
     -->
     <list>
         <mapping class="cn.xjiangwei.autoaudio.db.Rules" />
+        <mapping class="cn.xjiangwei.autoaudio.db.Status" />
     </list>
 
     <!--
