@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+
+
+    <TextView
+        android:id="@+id/rules"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="规则："/>
+
+    <TextView
+        android:id="@+id/item_tv"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/rules"
+        android:gravity="center"
+        tools:text="item" />
+
+
+    <TextView
+        android:id="@+id/valueLab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="值："
+        android:layout_toRightOf="@id/item_tv" />
+
+
+    <TextView
+        android:id="@+id/value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/valueLab"
+        />
+
+
+</RelativeLayout >
+

@@ -4,12 +4,16 @@ import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import cn.xjiangwei.autoaudio.vo.Item;
 
 public class Rules extends LitePalSupport {
 
     public static final int OPEN = 2;
     public static final int CLOSE = 1;
+    public static final int DEFAULT = 0;
     private int id;
 
     @Column(nullable = true)
@@ -157,6 +161,82 @@ public class Rules extends LitePalSupport {
         }
         return new int[]{audio, ring, clock};
     }
+
+    public static ArrayList<Item> getList() {
+
+        ArrayList<Item> list = new ArrayList<Item>();
+        List<Rules> rulesList = LitePal.findAll(Rules.class);
+        System.out.println(rulesList);
+        for (Rules rules : rulesList) {
+            String str_rules = "";
+            String Values = "";
+            switch (rules.getAudio()) {
+                case Rules.CLOSE:
+                    if (Values.length() > 0) Values += " ";
+                    Values += "媒体音量：关闭";
+                    break;
+                case Rules.DEFAULT:
+                    break;
+                case Rules.OPEN:
+                    if (Values.length() > 0) Values += " ";
+                    Values += "媒体音量：开";
+                    break;
+            }
+            switch (rules.getClock()) {
+                case Rules.CLOSE:
+                    if (Values.length() > 0) Values += " ";
+                    Values += "闹钟音量：关闭";
+                    break;
+                case Rules.DEFAULT:
+                    break;
+                case Rules.OPEN:
+                    if (Values.length() > 0) Values += " ";
+                    Values += "闹钟音量：开";
+                    break;
+            }
+
+            switch (rules.getRing()) {
+                case Rules.CLOSE:
+                    if (Values.length() > 0) Values += " ";
+                    Values += "来电音量：关闭";
+                    break;
+                case Rules.DEFAULT:
+                    break;
+                case Rules.OPEN:
+                    if (Values.length() > 0) Values += " ";
+                    Values += "来电音量：开";
+                    break;
+            }
+            if (rules.getYear() > 0) {
+                str_rules += "年：" + rules.getYear();
+            }
+            if (rules.getMonth() > 0) {
+                str_rules += "月：" + rules.getMonth();
+            }
+            if (rules.getWeek() > 0) {
+                str_rules += "周：" + rules.getWeek();
+            }
+            if (rules.getDay() > 0) {
+                str_rules += "日：" + rules.getDay();
+            }
+
+            if (rules.getHour() > 0) {
+                str_rules += "时：" + rules.getHour();
+            }
+
+            if (rules.getMin() > 0) {
+                str_rules += "分：" + rules.getMin();
+            }
+
+            list.add(new Item(rules.getId(), str_rules, Values));
+
+
+        }
+
+
+        return list;
+    }
+
 
     @Override
     public String toString() {
