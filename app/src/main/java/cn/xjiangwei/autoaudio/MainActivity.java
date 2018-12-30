@@ -1,5 +1,10 @@
 package cn.xjiangwei.autoaudio;
 
+import android.app.AlarmManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -7,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +25,10 @@ import org.litepal.LitePal;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.xjiangwei.autoaudio.db.Rules;
+import cn.xjiangwei.autoaudio.service.JobService;
 import cn.xjiangwei.autoaudio.vo.Item;
+
+import static android.app.job.JobInfo.BACKOFF_POLICY_LINEAR;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +50,29 @@ public class MainActivity extends AppCompatActivity {
         initView();
         Toolbar mToolbarTb = (Toolbar) findViewById(R.id.tb_toolbar);
         setSupportActionBar(mToolbarTb);
+
+
+        //定时任务
+        scheduleJob();
+
     }
+
+
+    // 当用户单击SCHEDULE JOB时执行。
+    public void scheduleJob() {
+        //开始配置JobInfo
+        JobInfo.Builder builder = new JobInfo.Builder(1, new ComponentName(getPackageName(), JobService.class.getName()));
+        //设置开机启动
+        builder.setPersisted(true);        //设置失败后重试间隔时间和策略
+        builder.setRequiresDeviceIdle(true);        //设置任务的周期性
+        builder.setMinimumLatency(0);
+        builder.setPeriodic(6 * 1000);
+        JobScheduler mJobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        // 这里就将开始在service里边处理我们配置好的job
+        mJobScheduler.schedule(builder.build());
+
+    }
+
 
     private void initData() {
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
