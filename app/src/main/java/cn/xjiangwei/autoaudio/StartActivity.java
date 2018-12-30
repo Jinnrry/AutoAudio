@@ -4,9 +4,12 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.angmarch.views.NiceSpinner;
@@ -17,6 +20,8 @@ import java.util.LinkedList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.xjiangwei.autoaudio.Tools.Check;
+import cn.xjiangwei.autoaudio.db.Rules;
 import cn.xjiangwei.autoaudio.db.Status;
 import cn.xjiangwei.autoaudio.service.JobService;
 
@@ -33,6 +38,8 @@ public class StartActivity extends AppCompatActivity {
     NiceSpinner time_pick;
     @BindView(R.id.submit)
     Button submit;
+    @BindView(R.id.lable1)
+    TextView lable1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +86,45 @@ public class StartActivity extends AppCompatActivity {
         int clock = clock_pick.getSelectedIndex();
         int time = time_pick.getSelectedIndex();
         Status.add(audio, ring, clock, time);
+
+
+        //audi, ring ,clock
+        int[] conf = Check.checkNow();
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        switch (conf[0]){
+            case Rules.CLOSE:
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+                break;
+            case Rules.OPEN:
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 100, 0);
+                break;
+        }
+
+
+        switch (conf[1]){
+            case Rules.CLOSE:
+                audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
+                break;
+            case Rules.OPEN:
+                audioManager.setStreamVolume(AudioManager.STREAM_RING, 100, 0);
+                break;
+        }
+
+        switch (conf[2]){
+            case Rules.CLOSE:
+                audioManager.setStreamVolume(AudioManager.STREAM_ALARM, 0, 0);
+                break;
+            case Rules.OPEN:
+                audioManager.setStreamVolume(AudioManager.STREAM_ALARM, 100, 0);
+                break;
+        }
+
         Toast.makeText(this, "设置成功！", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.ruleList)
+    public void go2RulesList() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
