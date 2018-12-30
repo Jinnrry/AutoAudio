@@ -3,7 +3,7 @@
 
 ### 下载
 
-[APK程序下载](./AutoAudio.apk)
+[APK程序下载](https://github.com/jiangwei1995910/AutoAudio/releases/download/1.1/AutoAudio.apk)
 
 ### 初衷
 
