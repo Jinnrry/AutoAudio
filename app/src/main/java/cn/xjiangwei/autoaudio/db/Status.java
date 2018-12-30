@@ -53,6 +53,21 @@ public class Status extends LitePalSupport {
     }
 
 
+    public static void add(int audio_status, int ring_status, int clock_status, int time) {
+        Status firststatus = LitePal.findFirst(Status.class);
+        if (firststatus != null) firststatus.delete();
+        firststatus = new Status();
+        firststatus.setAudio_status(audio_status);
+        firststatus.setRing_status(ring_status);
+        firststatus.setClock_status(clock_status);
+        long timeStamp = System.currentTimeMillis();
+        timeStamp += time * 1000 * 60 * 30;
+        firststatus.setEnd_time(timeStamp);
+        firststatus.save();
+        System.out.println(firststatus);
+    }
+
+
     public static int[] getStatus() {
         Status status = null;
         status = LitePal.findFirst(Status.class);

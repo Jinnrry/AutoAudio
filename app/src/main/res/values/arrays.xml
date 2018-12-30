@@ -120,5 +120,28 @@
         <item>关</item>
         <item>开</item>
     </string-array>
+
+
+    <string-array name="model">
+        <item>媒体</item>
+        <item>铃声</item>
+        <item>闹钟</item>
+    </string-array>
+
+
+    <string-array name="pick">
+        <item>开</item>
+        <item>关</item>
+    </string-array>
+
+    <string-array name="time">
+        <item>0.5小时</item>
+        <item>1小时</item>
+        <item>1.5小时</item>
+        <item>2小时</item>
+        <item>2.5小时</item>
+        <item>3小时</item>
+    </string-array>
+
 </resources>
 

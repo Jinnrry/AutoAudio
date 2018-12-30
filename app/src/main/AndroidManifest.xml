@@ -3,6 +3,7 @@
     package="cn.xjiangwei.autoaudio">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
@@ -11,19 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-
-
-        <service android:name="cn.xjiangwei.autoaudio.service.JobService"
+        <service
+            android:name=".service.JobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

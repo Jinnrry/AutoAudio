@@ -1,6 +1,7 @@
 package cn.xjiangwei.autoaudio.Tools;
 
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import cn.xjiangwei.autoaudio.db.Rules;
@@ -20,6 +21,10 @@ public class Check {
         if (week == 0) week = 7;
 
         int[] tmpStatus = Status.getStatus();
+
+        System.out.println("临时状态："+ Arrays.toString(tmpStatus));
+
+
         int[] ruleStatus = Rules.checkStatus(year, month, day, hour, minute, week);
 
         if (tmpStatus[0] == Rules.DEFAULT) {
