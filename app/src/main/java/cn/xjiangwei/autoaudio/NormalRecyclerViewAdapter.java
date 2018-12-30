@@ -10,9 +10,10 @@ import java.util.ArrayList;
 
 import cn.xjiangwei.autoaudio.vo.Item;
 
-public class NormalRecyclerViewAdapter extends RecyclerView.Adapter<NormalRecyclerViewAdapter.ViewHolder>{
+public class NormalRecyclerViewAdapter extends RecyclerView.Adapter<NormalRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Item> mData;
+    private OnItemClickListener mOnItemClickListener;
 
     public NormalRecyclerViewAdapter(ArrayList<Item> data) {
         this.mData = data;
@@ -33,10 +34,28 @@ public class NormalRecyclerViewAdapter extends RecyclerView.Adapter<NormalRecycl
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder,final int position) {
         // 绑定数据
         holder.mTv.setText(mData.get(position).getRule());
         holder.mValue.setText(mData.get(position).getValue());
+
+        if( mOnItemClickListener!= null){
+            holder.itemView.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onClick(mData.get(position).getId());
+                }
+            });
+            holder. itemView.setOnLongClickListener( new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mOnItemClickListener.onLongClick(mData.get(position).getId());
+                    return false;
+                }
+            });
+        }
+
+
     }
 
     @Override
@@ -44,14 +63,23 @@ public class NormalRecyclerViewAdapter extends RecyclerView.Adapter<NormalRecycl
         return mData == null ? 0 : mData.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public interface OnItemClickListener {
+        void onClick(long position);
+        void onLongClick(long position);
+    }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTv;
         TextView mValue;
         public ViewHolder(View itemView) {
             super(itemView);
             mTv = (TextView) itemView.findViewById(R.id.item_tv);
-            mValue=(TextView) itemView.findViewById(R.id.value);
+            mValue = (TextView) itemView.findViewById(R.id.value);
         }
     }
 }

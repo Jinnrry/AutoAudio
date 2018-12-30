@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="year">
+        <item>不限</item>
+        <item>2018年</item>
+        <item>2019年</item>
+        <item>2020年</item>
+        <item>2021年</item>
+        <item>2022年</item>
+        <item>2023年</item>
+    </string-array>
+
+
+    <string-array name="month">
+        <item>不限</item>
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
+
+
+    <string-array name="day">
+        <item>不限</item>
+        <item>1日</item>
+        <item>2日</item>
+        <item>3日</item>
+        <item>4日</item>
+        <item>5日</item>
+        <item>6日</item>
+        <item>7日</item>
+        <item>8日</item>
+        <item>9日</item>
+        <item>10日</item>
+        <item>11日</item>
+        <item>12日</item>
+        <item>13日</item>
+        <item>14日</item>
+        <item>15日</item>
+        <item>16日</item>
+        <item>17日</item>
+        <item>18日</item>
+        <item>19日</item>
+        <item>20日</item>
+        <item>21日</item>
+        <item>22日</item>
+        <item>23日</item>
+        <item>24日</item>
+        <item>25日</item>
+        <item>26日</item>
+        <item>27日</item>
+        <item>28日</item>
+        <item>29日</item>
+        <item>30日</item>
+        <item>31日</item>
+    </string-array>
+
+    <string-array name="week">
+        <item>不限</item>
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+        <item>星期日</item>
+    </string-array>
+
+    <string-array name="hour">
+        <item>不限</item>
+        <item>1点</item>
+        <item>2点</item>
+        <item>3点</item>
+        <item>4点</item>
+        <item>5点</item>
+        <item>6点</item>
+        <item>7点</item>
+        <item>8点</item>
+        <item>9点</item>
+        <item>10点</item>
+        <item>11点</item>
+        <item>12点</item>
+        <item>13点</item>
+        <item>14点</item>
+        <item>15点</item>
+        <item>16点</item>
+        <item>17点</item>
+        <item>18点</item>
+        <item>19点</item>
+        <item>20点</item>
+        <item>21点</item>
+        <item>22点</item>
+        <item>23点</item>
+    </string-array>
+
+    <string-array name="audioValue">
+        <item>媒体音量</item>
+        <item>关</item>
+        <item>开</item>
+    </string-array>
+
+
+    <string-array name="clockValues">
+        <item>闹钟音量</item>
+        <item>关</item>
+        <item>开</item>
+    </string-array>
+
+
+    <string-array name="ringValues">
+        <item>铃声音量</item>
+        <item>关</item>
+        <item>开</item>
+    </string-array>
+</resources>
+

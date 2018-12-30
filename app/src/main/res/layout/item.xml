@@ -14,7 +14,7 @@
 
     <TextView
         android:id="@+id/item_tv"
-        android:layout_width="70dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/rules"
         android:gravity="center"
@@ -25,14 +25,15 @@
         android:id="@+id/valueLab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="值："
-        android:layout_toRightOf="@id/item_tv" />
+        android:layout_below="@id/item_tv"
+        android:text="值："/>
 
 
     <TextView
         android:id="@+id/value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/item_tv"
         android:layout_toRightOf="@id/valueLab"
         />
 

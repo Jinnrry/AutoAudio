@@ -1,0 +1,95 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/year"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/year" />
+
+        <Spinner
+            android:id="@+id/month"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/month" />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/week"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/week" />
+        <Spinner
+            android:id="@+id/day"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/day" />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/hour"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/hour" />
+        <EditText
+            android:layout_width="150dp"
+            android:id="@+id/min"
+            android:layout_height="wrap_content"
+            android:hint="分"/>
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/audio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/audioValue">
+        </Spinner>
+        <Spinner
+            android:id="@+id/ring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/ringValues">
+        </Spinner>
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:id="@+id/clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/clockValues">
+        </Spinner>
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
+</LinearLayout>

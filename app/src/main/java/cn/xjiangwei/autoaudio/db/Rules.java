@@ -208,24 +208,35 @@ public class Rules extends LitePalSupport {
                     break;
             }
             if (rules.getYear() > 0) {
-                str_rules += "年：" + rules.getYear();
+                if (str_rules.length() > 0) str_rules += "且";
+                str_rules += rules.getYear() + "年";
             }
             if (rules.getMonth() > 0) {
-                str_rules += "月：" + rules.getMonth();
+                if (str_rules.length() > 0) str_rules += "且";
+
+                str_rules += rules.getMonth() + "月";
             }
             if (rules.getWeek() > 0) {
-                str_rules += "周：" + rules.getWeek();
+                if (str_rules.length() > 0) str_rules += "且";
+
+                str_rules += "周" + rules.getWeek();
             }
             if (rules.getDay() > 0) {
-                str_rules += "日：" + rules.getDay();
+                if (str_rules.length() > 0) str_rules += "且";
+
+                str_rules += rules.getDay() + "日";
             }
 
             if (rules.getHour() > 0) {
-                str_rules += "时：" + rules.getHour();
+                if (str_rules.length() > 0) str_rules += "且";
+
+                str_rules += rules.getHour() + "时";
             }
 
             if (rules.getMin() > 0) {
-                str_rules += "分：" + rules.getMin();
+                if (str_rules.length() > 0) str_rules += "且";
+
+                str_rules += rules.getMin() + "分";
             }
 
             list.add(new Item(rules.getId(), str_rules, Values));
