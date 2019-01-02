@@ -13,9 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.angmarch.views.NiceSpinner;
+import org.litepal.LitePal;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +43,15 @@ public class StartActivity extends AppCompatActivity {
     @BindView(R.id.lable1)
     TextView lable1;
 
+    @BindView(R.id.audio_info)
+    TextView audio_info;
+    @BindView(R.id.ring_info)
+    TextView ring_info;
+    @BindView(R.id.clock_info)
+    TextView clock_info;
+
+    AudioManager audioManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +59,7 @@ public class StartActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         scheduleJob();
 
-
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         LinkedList<String> audio_data = new LinkedList<>(Arrays.asList("媒体音量", "关闭", "打开"));
         audio_pick.attachDataSource(audio_data);
 
@@ -60,6 +71,40 @@ public class StartActivity extends AppCompatActivity {
 
         LinkedList<String> time_data = new LinkedList<>(Arrays.asList("作用时间", "0.5小时", "1小时", "1.5小时", "2小时", "2.5小时", "3小时", "3.5小时", "4小时", "4.5小时"));
         time_pick.attachDataSource(time_data);
+
+
+        updateStatus();
+        List<Status> all = LitePal.findAll(Status.class);
+        System.out.println(all);
+
+    }
+
+    private void updateStatus() {
+        int max = 1;
+        int current = 1;
+        int tmpstatus[] = Status.getStatus();
+        if (tmpstatus[0] != 0) {
+            audio_info.setText("媒体音量：" + Rules.STATUS[tmpstatus[0]]);
+        } else {
+            max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            current = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+            audio_info.setText("媒体音量：" + current / max * 100);
+        }
+        if (tmpstatus[1] != 0) {
+            ring_info.setText("铃声音量：" + Rules.STATUS[tmpstatus[0]]);
+        } else {
+            max = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
+            current = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+            ring_info.setText("铃声音量：" + current / max * 100);
+        }
+        if (tmpstatus[2] != 0) {
+            clock_info.setText("闹钟音量：" + Rules.STATUS[tmpstatus[0]]);
+        } else {
+            max = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+            current = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+            clock_info.setText("闹钟音量：" + current / max * 100);
+        }
+
     }
 
 
@@ -71,7 +116,7 @@ public class StartActivity extends AppCompatActivity {
         builder.setPersisted(true);        //设置失败后重试间隔时间和策略
         builder.setRequiresDeviceIdle(true);        //设置任务的周期性
         builder.setMinimumLatency(0);
-        builder.setPeriodic(6 * 1000);
+        builder.setPeriodic(60 * 1000 * 15);
         JobScheduler mJobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         // 这里就将开始在service里边处理我们配置好的job
         mJobScheduler.schedule(builder.build());
@@ -90,8 +135,7 @@ public class StartActivity extends AppCompatActivity {
 
         //audi, ring ,clock
         int[] conf = Check.checkNow();
-        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        switch (conf[0]){
+        switch (conf[0]) {
             case Rules.CLOSE:
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
                 break;
@@ -101,7 +145,7 @@ public class StartActivity extends AppCompatActivity {
         }
 
 
-        switch (conf[1]){
+        switch (conf[1]) {
             case Rules.CLOSE:
                 audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
                 break;
@@ -110,7 +154,7 @@ public class StartActivity extends AppCompatActivity {
                 break;
         }
 
-        switch (conf[2]){
+        switch (conf[2]) {
             case Rules.CLOSE:
                 audioManager.setStreamVolume(AudioManager.STREAM_ALARM, 0, 0);
                 break;
@@ -120,6 +164,7 @@ public class StartActivity extends AppCompatActivity {
         }
 
         Toast.makeText(this, "设置成功！", Toast.LENGTH_SHORT).show();
+        updateStatus();
     }
 
     @OnClick(R.id.ruleList)

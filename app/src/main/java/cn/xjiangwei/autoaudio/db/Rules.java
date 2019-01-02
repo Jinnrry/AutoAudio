@@ -14,6 +14,10 @@ public class Rules extends LitePalSupport {
     public static final int OPEN = 2;
     public static final int CLOSE = 1;
     public static final int DEFAULT = 0;
+
+    public static final String[] STATUS = new String[]{"默认", "关闭", "打开"};
+
+
     private int id;
 
     @Column(nullable = true)

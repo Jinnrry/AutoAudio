@@ -15,6 +15,7 @@ public class JobService extends android.app.job.JobService {
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
 
+        System.out.println("Run");
 
         //audi, ring ,clock
         int[] conf = Check.checkNow();
