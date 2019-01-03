@@ -49,7 +49,8 @@ public class StartActivity extends AppCompatActivity {
     TextView ring_info;
     @BindView(R.id.clock_info)
     TextView clock_info;
-
+    @BindView(R.id.nowRule)
+    TextView nowRule;
     AudioManager audioManager;
 
     @Override
@@ -74,8 +75,10 @@ public class StartActivity extends AppCompatActivity {
 
 
         updateStatus();
-        List<Status> all = LitePal.findAll(Status.class);
-        System.out.println(all);
+
+
+
+
 
     }
 
@@ -104,7 +107,7 @@ public class StartActivity extends AppCompatActivity {
             current = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
             clock_info.setText("闹钟音量：" + current / max * 100);
         }
-
+        nowRule.setText(Check.getNowRule());
     }
 
 
