@@ -77,9 +77,6 @@ public class StartActivity extends AppCompatActivity {
         updateStatus();
 
 
-
-
-
     }
 
     private void updateStatus() {

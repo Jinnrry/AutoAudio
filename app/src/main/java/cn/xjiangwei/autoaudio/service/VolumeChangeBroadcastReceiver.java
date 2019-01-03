@@ -19,6 +19,10 @@ public class VolumeChangeBroadcastReceiver extends BroadcastReceiver {
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         }
         updateVolume();
+        Intent i = new Intent();
+        i.setClassName("cn.xjiangwei.autoaudio", "cn.xjiangwei.autoaudio.StartActivity");
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(i);
     }
 
 
