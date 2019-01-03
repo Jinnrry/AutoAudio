@@ -11,12 +11,6 @@ import cn.xjiangwei.autoaudio.vo.Item;
 
 public class Rules extends LitePalSupport {
 
-    public static final int OPEN = 2;
-    public static final int CLOSE = 1;
-    public static final int DEFAULT = 0;
-
-    public static final String[] STATUS = new String[]{"默认", "关闭", "打开"};
-
 
     private int id;
 
@@ -32,10 +26,30 @@ public class Rules extends LitePalSupport {
     private int min;
     @Column(nullable = true)
     private int week;
+    @Column(nullable = true)
+    private int end_hour;
+    @Column(nullable = true)
+    private int end_min;
 
     private int audio;
     private int ring;
     private int clock;
+
+    public int getEnd_hour() {
+        return end_hour;
+    }
+
+    public void setEnd_hour(int end_hour) {
+        this.end_hour = end_hour;
+    }
+
+    public int getEnd_min() {
+        return end_min;
+    }
+
+    public void setEnd_min(int end_min) {
+        this.end_min = end_min;
+    }
 
     public int getYear() {
         return year;
@@ -118,50 +132,40 @@ public class Rules extends LitePalSupport {
     }
 
 
-    public static boolean addRules(int year, int month, int day, int hour, int min, int week, int audio, int ring, int clock) {
+    public static boolean addRules(int year, int month, int day, int hour, int min, int end_hour, int end_min, int week, int audio, int ring, int clock) {
         Rules rules = new Rules();
         if (year > 0) rules.setYear(year);
         if (month > 0) rules.setMonth(month);
         if (day > 0) rules.setDay(day);
-        if (hour > 0) rules.setHour(hour);
-        if (min > 0) rules.setMin(min);
-        if (audio > 0) rules.setAudio(audio);
-        if (ring > 0) rules.setRing(audio);
-        if (clock > 0) rules.setClock(clock);
+        rules.setHour(hour);
+        rules.setMin(min);
+        rules.setAudio(audio);
+        rules.setRing(audio);
+        rules.setClock(clock);
         if (week > 0) rules.setWeek(week);
+        rules.setEnd_hour(end_hour);
+        rules.setEnd_min(end_min);
         return rules.save();
     }
 
 
     public static int[] checkStatus(int year, int month, int day, int hour, int min, int week) {
-        int ring = 0;
-        int audio = 0;
-        int clock = 0;
+        int ring = -1;
+        int audio = -1;
+        int clock = -1;
 
         List<Rules> rulesList = LitePal
                 .where("year = ? or year =0 ", String.valueOf(year))
                 .where("month = ? or month = 0", String.valueOf(month))
                 .where("day = ? or day = 0", String.valueOf(day))
-                .where("hour = ? or hour = 0", String.valueOf(hour))
-                .where("min = ? or min = 0", String.valueOf(min))
+                .where("(hour <= ? and end_hour >=?) or (hour is null and end_hour is null)", String.valueOf(hour))
+                .where("(min <= ? and end_min >=?) or (min is null and end_min is null)", String.valueOf(min))
                 .where("week = ? or week = 0", String.valueOf(week))
                 .find(Rules.class);
         for (Rules rule : rulesList) {
-            if (rule.getAudio() == Rules.OPEN && audio == 0) {
-                audio = Rules.OPEN;
-            } else if (rule.getAudio() == Rules.CLOSE && audio == 0) {
-                audio = Rules.CLOSE;
-            }
-            if (rule.getRing() == Rules.OPEN && ring == 0) {
-                ring = Rules.OPEN;
-            } else if (rule.getRing() == Rules.CLOSE && ring == 0) {
-                ring = Rules.CLOSE;
-            }
-            if (rule.getClock() == Rules.OPEN && clock == 0) {
-                clock = Rules.OPEN;
-            } else if (rule.getClock() == Rules.CLOSE && clock == 0) {
-                clock = Rules.CLOSE;
-            }
+            if (rule.getAudio() > audio) audio = rule.getAudio();
+            if (rule.getRing() > ring) ring = rule.getRing();
+            if (rule.getClock() > clock) clock = rule.getClock();
         }
         return new int[]{audio, ring, clock};
     }
@@ -174,84 +178,54 @@ public class Rules extends LitePalSupport {
         for (Rules rules : rulesList) {
             String str_rules = "";
             String Values = "";
-            switch (rules.getAudio()) {
-                case Rules.CLOSE:
-                    if (Values.length() > 0) Values += " ";
-                    Values += "媒体音量：关闭";
-                    break;
-                case Rules.DEFAULT:
-                    break;
-                case Rules.OPEN:
-                    if (Values.length() > 0) Values += " ";
-                    Values += "媒体音量：开";
-                    break;
+            if (rules.getAudio() >= 0) {
+                Values += "媒体音量：" + rules.getAudio();
             }
-            switch (rules.getClock()) {
-                case Rules.CLOSE:
-                    if (Values.length() > 0) Values += " ";
-                    Values += "闹钟音量：关闭";
-                    break;
-                case Rules.DEFAULT:
-                    break;
-                case Rules.OPEN:
-                    if (Values.length() > 0) Values += " ";
-                    Values += "闹钟音量：开";
-                    break;
+            if (rules.getRing() >= 0) {
+                Values += "铃声音量：" + rules.getRing();
+            }
+            if (rules.getClock() >= 0) {
+                Values += "闹钟音量：" + rules.getClock();
             }
 
-            switch (rules.getRing()) {
-                case Rules.CLOSE:
-                    if (Values.length() > 0) Values += " ";
-                    Values += "来电音量：关闭";
-                    break;
-                case Rules.DEFAULT:
-                    break;
-                case Rules.OPEN:
-                    if (Values.length() > 0) Values += " ";
-                    Values += "来电音量：开";
-                    break;
-            }
+
             if (rules.getYear() > 0) {
                 if (str_rules.length() > 0) str_rules += "且";
                 str_rules += rules.getYear() + "年";
             }
             if (rules.getMonth() > 0) {
                 if (str_rules.length() > 0) str_rules += "且";
-
                 str_rules += rules.getMonth() + "月";
             }
             if (rules.getWeek() > 0) {
                 if (str_rules.length() > 0) str_rules += "且";
-
                 str_rules += "周" + rules.getWeek();
             }
             if (rules.getDay() > 0) {
                 if (str_rules.length() > 0) str_rules += "且";
-
                 str_rules += rules.getDay() + "日";
             }
 
-            if (rules.getHour() > 0) {
+            if (rules.getHour() >= 0) {
                 if (str_rules.length() > 0) str_rules += "且";
-
-                str_rules += rules.getHour() + "时";
+                if (rules.getEnd_hour() >= 0) {
+                    str_rules += rules.getHour() + "至";
+                }
+                str_rules += rules.getEnd_hour() + "时";
             }
 
             if (rules.getMin() > 0) {
                 if (str_rules.length() > 0) str_rules += "且";
-
-                str_rules += rules.getMin() + "分";
+                if (rules.getEnd_hour() >= 0) {
+                    str_rules += rules.getMin() + "至";
+                }
+                str_rules += rules.getEnd_min() + "分";
             }
 
             list.add(new Item(rules.getId(), str_rules, Values));
-
-
         }
-
-
         return list;
     }
-
 
     @Override
     public String toString() {
@@ -263,6 +237,8 @@ public class Rules extends LitePalSupport {
                 ", hour=" + hour +
                 ", min=" + min +
                 ", week=" + week +
+                ", end_hour=" + end_hour +
+                ", end_min=" + end_min +
                 ", audio=" + audio +
                 ", ring=" + ring +
                 ", clock=" + clock +

@@ -15,14 +15,14 @@ public class VolumeChangeBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (audioManager == null) {
-            audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        }
-        updateVolume();
-        Intent i = new Intent();
-        i.setClassName("cn.xjiangwei.autoaudio", "cn.xjiangwei.autoaudio.StartActivity");
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);
+//        if (audioManager == null) {
+//            audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+//        }
+//        updateVolume();
+//        Intent i = new Intent();
+//        i.setClassName("cn.xjiangwei.autoaudio", "cn.xjiangwei.autoaudio.StartActivity");
+//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(i);
     }
 
 

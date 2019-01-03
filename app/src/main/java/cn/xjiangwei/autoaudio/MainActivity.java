@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                Rules.addRules(year, month, day, hour, iMin, week, audio, ring, clock);
+                Rules.addRules(year, month, day, hour, iMin,23,59, week, audio, ring, clock);
                 mAdapter.updateData(Rules.getList());
 
 

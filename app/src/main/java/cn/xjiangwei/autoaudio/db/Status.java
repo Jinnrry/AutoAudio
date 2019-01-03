@@ -73,11 +73,11 @@ public class Status extends LitePalSupport {
         status = LitePal.findFirst(Status.class);
         long timeStamp = System.currentTimeMillis();
         if (status == null) {
-            return new int[]{0, 0, 0};
+            return null;
         }
         if (status.end_time < timeStamp) {
             status.delete();
-            return new int[]{0, 0, 0};
+            return null;
         }
         return new int[]{status.getAudio_status(), status.getRing_status(), status.getClock_status()};
     }
