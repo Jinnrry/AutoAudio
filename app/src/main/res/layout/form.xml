@@ -1,95 +1,179 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="30dp">
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_marginTop="30dp"
-        android:layout_height="wrap_content">
-        <Spinner
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="年份" />
+
+        <org.angmarch.views.NiceSpinner
             android:id="@+id/year"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:entries="@array/year" />
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
 
-        <Spinner
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="月份" />
+
+        <org.angmarch.views.NiceSpinner
             android:id="@+id/month"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:entries="@array/month" />
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
 
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_marginTop="30dp"
-        android:layout_height="wrap_content">
-        <Spinner
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="星期" />
+
+        <org.angmarch.views.NiceSpinner
             android:id="@+id/week"
-            android:layout_width="150dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/week" />
-        <Spinner
+            android:width="30dp"
+            android:text="天" />
+
+        <org.angmarch.views.NiceSpinner
             android:id="@+id/day"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:entries="@array/day" />
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
 
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_marginTop="30dp"
-        android:layout_height="wrap_content">
-        <Spinner
-            android:id="@+id/hour"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:entries="@array/hour" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp">
+
         <EditText
-            android:layout_width="150dp"
-            android:id="@+id/min"
+            android:id="@+id/hour"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:hint="分"/>
+            android:hint="开始小时"
+            android:textSize="12dp" />
+
+        <EditText
+            android:id="@+id/min"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="开始分钟"
+            android:textSize="12dp" />
     </android.support.v7.widget.LinearLayoutCompat>
-
-
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_marginTop="30dp"
-        android:layout_height="wrap_content">
-        <Spinner
-            android:id="@+id/audio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/audioValue">
-        </Spinner>
-        <Spinner
-            android:id="@+id/ring"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/ringValues">
-        </Spinner>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp">
 
+        <EditText
+            android:id="@+id/end_hour"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="结束小时"
+            android:textSize="12dp" />
+
+        <EditText
+            android:id="@+id/end_min"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="结束分钟"
+            android:textSize="12dp" />
     </android.support.v7.widget.LinearLayoutCompat>
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/audio" />
 
-        <Spinner
-            android:id="@+id/clock"
+        <SeekBar
+            android:id="@+id/form_audio_value"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="10" />
+
+        <TextView
+            android:id="@+id/form_audio_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/clockValues">
-        </Spinner>
+            android:text="100%" />
+    </LinearLayout>
 
-    </android.support.v7.widget.LinearLayoutCompat>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/ring" />
+
+        <SeekBar
+            android:id="@+id/form_ring_value"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="10" />
+
+        <TextView
+            android:id="@+id/form_ring_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100%" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/clock" />
+
+        <SeekBar
+            android:id="@+id/form_clock_value"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="10" />
+
+        <TextView
+            android:id="@+id/form_clock_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100%" />
+    </LinearLayout>
 
 
 </LinearLayout>

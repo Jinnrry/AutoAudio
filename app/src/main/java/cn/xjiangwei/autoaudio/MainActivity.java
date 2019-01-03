@@ -1,10 +1,6 @@
 package cn.xjiangwei.autoaudio;
 
-import android.app.AlarmManager;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
-import android.content.Context;
+
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -12,13 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.litepal.LitePal;
 
@@ -52,11 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbarTb);
 
 
-
-
     }
-
-
 
 
     private void initData() {
@@ -88,9 +80,17 @@ public class MainActivity extends AppCompatActivity {
             case R.id.add_rule:
                 addRule();
                 break;
+            default:
+                add2();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void add2() {
+
+    }
+
 
     private void initView() {
         // 设置布局管理器
@@ -113,12 +113,12 @@ public class MainActivity extends AppCompatActivity {
                 int year = ((Spinner) dialogView.findViewById(R.id.year)).getSelectedItemPosition();
                 int month = ((Spinner) dialogView.findViewById(R.id.month)).getSelectedItemPosition();
                 int day = ((Spinner) dialogView.findViewById(R.id.day)).getSelectedItemPosition();
-                int hour = ((Spinner) dialogView.findViewById(R.id.hour)).getSelectedItemPosition();
+                int hour = Integer.parseInt(((TextView) dialogView.findViewById(R.id.hour)).getText().toString());
                 String min = ((EditText) dialogView.findViewById(R.id.min)).getText().toString();
                 int week = ((Spinner) dialogView.findViewById(R.id.week)).getSelectedItemPosition();
-                int audio = ((Spinner) dialogView.findViewById(R.id.audio)).getSelectedItemPosition();
-                int ring = ((Spinner) dialogView.findViewById(R.id.ring)).getSelectedItemPosition();
-                int clock = ((Spinner) dialogView.findViewById(R.id.clock)).getSelectedItemPosition();
+//                int audio = ((Spinner) dialogView.findViewById(R.id.audio)).getSelectedItemPosition();
+//                int ring = ((Spinner) dialogView.findViewById(R.id.ring)).getSelectedItemPosition();
+//                int clock = ((Spinner) dialogView.findViewById(R.id.clock)).getSelectedItemPosition();
                 if (year != 0) {
                     year += 2017;
                 }
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                Rules.addRules(year, month, day, hour, iMin,23,59, week, audio, ring, clock);
+//                Rules.addRules(year, month, day, hour, iMin, 23, 59, week, audio, ring, clock);
                 mAdapter.updateData(Rules.getList());
 
 
