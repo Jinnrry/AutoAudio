@@ -3,7 +3,7 @@ package cn.xjiangwei.autoaudio.Tools;
 import android.util.Log;
 
 public class DebugLog {
-    private static final boolean DebugModel = true;
+    private static final boolean DebugModel = false;
     private static final String TAG = "AutoAudio";
 
     public static void v(String tag, String info) {
