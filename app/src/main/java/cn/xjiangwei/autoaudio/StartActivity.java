@@ -8,50 +8,41 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.angmarch.views.NiceSpinner;
-import org.litepal.LitePal;
-
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.xjiangwei.autoaudio.Tools.Check;
-import cn.xjiangwei.autoaudio.db.Rules;
 import cn.xjiangwei.autoaudio.db.Status;
 import cn.xjiangwei.autoaudio.service.JobService;
 
 public class StartActivity extends AppCompatActivity {
 
-    @BindView(R.id.audio_pick)
-    NiceSpinner audio_pick;
-    @BindView(R.id.ring_pick)
-    NiceSpinner ring_pick;
-    @BindView(R.id.clock_pick)
-    NiceSpinner clock_pick;
 
+    @BindView(R.id.audio_value)
+    SeekBar audio;
+    @BindView(R.id.ring_value)
+    SeekBar ring;
+    @BindView(R.id.clock_value)
+    SeekBar clock;
     @BindView(R.id.time)
-    NiceSpinner time_pick;
-    @BindView(R.id.submit)
-    Button submit;
-    @BindView(R.id.lable1)
-    TextView lable1;
+    SeekBar time;
 
-    @BindView(R.id.audio_info)
-    TextView audio_info;
-    @BindView(R.id.ring_info)
-    TextView ring_info;
-    @BindView(R.id.clock_info)
-    TextView clock_info;
-    @BindView(R.id.nowRule)
-    TextView nowRule;
+
+    int audio_value, ring_valud, clock_value, time_value = 0;
+    int audio_max, ring_max, clock_max;
+
     AudioManager audioManager;
+    @BindView(R.id.audio_txt)
+    TextView audioTxt;
+    @BindView(R.id.ring_txt)
+    TextView ringTxt;
+    @BindView(R.id.clock_txt)
+    TextView clockTxt;
+    @BindView(R.id.time_txt)
+    TextView timeTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,56 +50,107 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
         scheduleJob();
-
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        LinkedList<String> audio_data = new LinkedList<>(Arrays.asList("媒体音量", "关闭", "打开"));
-        audio_pick.attachDataSource(audio_data);
-
-        LinkedList<String> ring_data = new LinkedList<>(Arrays.asList("铃声音量", "关闭", "打开"));
-        ring_pick.attachDataSource(ring_data);
-
-        LinkedList<String> clock_data = new LinkedList<>(Arrays.asList("闹铃音量", "关闭", "打开"));
-        clock_pick.attachDataSource(clock_data);
-
-        LinkedList<String> time_data = new LinkedList<>(Arrays.asList("作用时间", "0.5小时", "1小时", "1.5小时", "2小时", "2.5小时", "3小时", "3.5小时", "4小时", "4.5小时"));
-        time_pick.attachDataSource(time_data);
-
-
-        updateStatus();
+        init();
 
 
     }
 
-    private void updateStatus() {
-        int max = 1;
-        int current = 1;
-        int tmpstatus[] = Status.getStatus();
-        if (tmpstatus[0] != 0) {
-            audio_info.setText("媒体音量：" + Rules.STATUS[tmpstatus[0]]);
-        } else {
-            max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            current = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            audio_info.setText("媒体音量：" + current / max * 100);
-        }
-        if (tmpstatus[1] != 0) {
-            ring_info.setText("铃声音量：" + Rules.STATUS[tmpstatus[0]]);
-        } else {
-            max = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
-            current = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-            ring_info.setText("铃声音量：" + current / max * 100);
-        }
-        if (tmpstatus[2] != 0) {
-            clock_info.setText("闹钟音量：" + Rules.STATUS[tmpstatus[0]]);
-        } else {
-            max = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
-            current = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
-            clock_info.setText("闹钟音量：" + current / max * 100);
-        }
-        nowRule.setText(Check.getNowRule());
+    private void init() {
+
+        audio_max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        audio_value = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        audio.setMax(audio_max);
+        audio.setProgress(audio_value);
+        audioTxt.setText(String.valueOf((int) (((float) audio_value) / audio_max * 100)) + "%");
+
+
+        ring_max = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
+        ring_valud = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+        ring.setMax(ring_max);
+        ring.setProgress(ring_valud);
+        ringTxt.setText(String.valueOf((int) (((float) ring_valud) / ring_max * 100)) + "%");
+
+
+        clock_max = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+        clock_value = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+        clock.setMax(clock_max);
+        clock.setProgress(clock_value);
+        clockTxt.setText(String.valueOf((int) (((float) clock_value) / clock_max * 100)) + "%");
+
+        int endtime = Status.getEndTime();
+        time.setProgress(endtime);
+        timeTxt.setText(endtime + "分");
+
+        audio.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                audioTxt.setText(String.valueOf((int) (((float) i) / audio_max * 100)) + "%");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                audio_value = seekBar.getProgress();
+            }
+        });
+
+
+        ring.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                ringTxt.setText(String.valueOf((int) (((float) i) / ring_max * 100)) + "%");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                ring_valud = seekBar.getProgress();
+            }
+        });
+
+
+        clock.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                clockTxt.setText(String.valueOf((int) (((float) i) / clock_max * 100)) + "%");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                clock_value = seekBar.getProgress();
+            }
+        });
+
+        time.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                timeTxt.setText(String.valueOf(i) + "分");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                time_value = seekBar.getProgress();
+            }
+        });
+
     }
 
 
-    // 当用户单击SCHEDULE JOB时执行。
     public void scheduleJob() {
         //开始配置JobInfo
         JobInfo.Builder builder = new JobInfo.Builder(1, new ComponentName(getPackageName(), JobService.class.getName()));
@@ -116,7 +158,7 @@ public class StartActivity extends AppCompatActivity {
         builder.setPersisted(true);        //设置失败后重试间隔时间和策略
         builder.setRequiresDeviceIdle(true);        //设置任务的周期性
         builder.setMinimumLatency(0);
-        builder.setPeriodic(60 * 1000 * 15);
+        builder.setPeriodic(60 * 1000 * 5);
         JobScheduler mJobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         // 这里就将开始在service里边处理我们配置好的job
         mJobScheduler.schedule(builder.build());
@@ -126,45 +168,11 @@ public class StartActivity extends AppCompatActivity {
 
     @OnClick(R.id.submit)
     public void onViewClicked() {
-        int audio = audio_pick.getSelectedIndex();
-        int ring = ring_pick.getSelectedIndex();
-        int clock = clock_pick.getSelectedIndex();
-        int time = time_pick.getSelectedIndex();
-        Status.add(audio, ring, clock, time);
-
-
-        //audi, ring ,clock
-        int[] conf = Check.checkNow();
-        switch (conf[0]) {
-            case Rules.CLOSE:
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-                break;
-            case Rules.OPEN:
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 100, 0);
-                break;
-        }
-
-
-        switch (conf[1]) {
-            case Rules.CLOSE:
-                audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
-                break;
-            case Rules.OPEN:
-                audioManager.setStreamVolume(AudioManager.STREAM_RING, 100, 0);
-                break;
-        }
-
-        switch (conf[2]) {
-            case Rules.CLOSE:
-                audioManager.setStreamVolume(AudioManager.STREAM_ALARM, 0, 0);
-                break;
-            case Rules.OPEN:
-                audioManager.setStreamVolume(AudioManager.STREAM_ALARM, 100, 0);
-                break;
-        }
-
+        Status.add(audio_value, ring_valud, clock_value, time_value);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audio_value, 0);
+        audioManager.setStreamVolume(AudioManager.STREAM_RING, ring_valud, 0);
+        audioManager.setStreamVolume(AudioManager.STREAM_ALARM, clock_value, 0);
         Toast.makeText(this, "设置成功！", Toast.LENGTH_SHORT).show();
-        updateStatus();
     }
 
     @OnClick(R.id.ruleList)
