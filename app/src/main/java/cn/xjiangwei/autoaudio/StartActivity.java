@@ -52,7 +52,6 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
         scheduleJob();
-
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         init();
 
@@ -60,7 +59,6 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void init() {
-        int current = 1;
 
         audio_max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         audio_value = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -82,6 +80,9 @@ public class StartActivity extends AppCompatActivity {
         clock.setProgress(clock_value);
         clockTxt.setText(String.valueOf((int) (((float) clock_value) / clock_max * 100)) + "%");
 
+        int endtime = Status.getEndTime();
+        time.setProgress(endtime);
+        timeTxt.setText(endtime + "分");
 
         audio.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -159,7 +160,7 @@ public class StartActivity extends AppCompatActivity {
         builder.setPersisted(true);        //设置失败后重试间隔时间和策略
         builder.setRequiresDeviceIdle(true);        //设置任务的周期性
         builder.setMinimumLatency(0);
-        builder.setPeriodic(60 * 1000 * 15);
+        builder.setPeriodic(1000 * 5);
         JobScheduler mJobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         // 这里就将开始在service里边处理我们配置好的job
         mJobScheduler.schedule(builder.build());
@@ -169,13 +170,10 @@ public class StartActivity extends AppCompatActivity {
 
     @OnClick(R.id.submit)
     public void onViewClicked() {
-
-
         Status.add(audio_value, ring_valud, clock_value, time_value);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audio_value, 0);
         audioManager.setStreamVolume(AudioManager.STREAM_RING, ring_valud, 0);
         audioManager.setStreamVolume(AudioManager.STREAM_ALARM, clock_value, 0);
-
         Toast.makeText(this, "设置成功！", Toast.LENGTH_SHORT).show();
     }
 

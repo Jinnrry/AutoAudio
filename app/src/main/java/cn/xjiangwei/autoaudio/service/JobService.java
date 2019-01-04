@@ -20,8 +20,9 @@ public class JobService extends android.app.job.JobService {
         //audi, ring ,clock
         int[] conf = Check.checkNow();
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
-        System.out.println(Arrays.toString(conf));
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, conf[0], 0);
+        audioManager.setStreamVolume(AudioManager.STREAM_RING, conf[1], 0);
+        audioManager.setStreamVolume(AudioManager.STREAM_ALARM, conf[2], 0);
         return false;
     }
 

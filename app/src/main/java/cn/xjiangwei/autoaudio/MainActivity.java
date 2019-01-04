@@ -47,14 +47,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         LitePal.initialize(this);
-        initData();
-        initView();
-        Toolbar mToolbarTb = (Toolbar) findViewById(R.id.tb_toolbar);
-        setSupportActionBar(mToolbarTb);
+
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audio_max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         ring_max = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
         clock_max = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+
+        initData();
+        initView();
+        Toolbar mToolbarTb = (Toolbar) findViewById(R.id.tb_toolbar);
+        setSupportActionBar(mToolbarTb);
+
 
 
     }
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initData() {
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mAdapter = new NormalRecyclerViewAdapter(Rules.getList());
+        mAdapter = new NormalRecyclerViewAdapter(Rules.getList(audio_max,ring_max,clock_max));
         mAdapter.setOnItemClickListener(new NormalRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onClick(long id) {
@@ -218,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                     iend_min = -1;
                 }
                 Rules.addRules(iyear, imonth, iday, ihour, imin, iend_hour, iend_min, iweek, iaudio_value, iring_value, iclock_value);
-                mAdapter.updateData(Rules.getList());
+                mAdapter.updateData(Rules.getList(audio_max,ring_max,clock_max));
             }
         });
         customizeDialog.show();
@@ -237,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
                         LitePal.find(Rules.class, id).delete();
-                        mAdapter.updateData(Rules.getList());
+                        mAdapter.updateData(Rules.getList(audio_max,ring_max,clock_max));
                     }
                 });
         normalDialog.setNegativeButton("关闭",

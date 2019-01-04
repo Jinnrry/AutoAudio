@@ -140,7 +140,7 @@ public class Rules extends LitePalSupport {
         rules.setHour(hour);
         rules.setMin(min);
         rules.setAudio(audio);
-        rules.setRing(audio);
+        rules.setRing(ring);
         rules.setClock(clock);
         if (week > 0) rules.setWeek(week);
         rules.setEnd_hour(end_hour);
@@ -162,6 +162,8 @@ public class Rules extends LitePalSupport {
                 .where("(min <= ? and end_min >=?) or (min is null and end_min is null)", String.valueOf(min))
                 .where("week = ? or week = 0", String.valueOf(week))
                 .find(Rules.class);
+        System.out.println("当前生效规则：");
+        System.out.println(rulesList);
         for (Rules rule : rulesList) {
             if (rule.getAudio() > audio) audio = rule.getAudio();
             if (rule.getRing() > ring) ring = rule.getRing();
@@ -170,8 +172,7 @@ public class Rules extends LitePalSupport {
         return new int[]{audio, ring, clock};
     }
 
-    public static ArrayList<Item> getList() {
-
+    public static ArrayList<Item> getList(int audio_max, int ring_max, int clock_max) {
         ArrayList<Item> list = new ArrayList<Item>();
         List<Rules> rulesList = LitePal.findAll(Rules.class);
         System.out.println(rulesList);
@@ -179,13 +180,13 @@ public class Rules extends LitePalSupport {
             String str_rules = "";
             String Values = "";
             if (rules.getAudio() >= 0) {
-                Values += "媒体音量：" + rules.getAudio();
+                Values += "媒体音量：" + String.valueOf((int) (((float) rules.getAudio()) / audio_max * 100)) + "%";
             }
             if (rules.getRing() >= 0) {
-                Values += "铃声音量：" + rules.getRing();
+                Values += "铃声音量：" + String.valueOf((int) (((float) rules.getRing()) / ring_max * 100)) + "%";
             }
             if (rules.getClock() >= 0) {
-                Values += "闹钟音量：" + rules.getClock();
+                Values += "闹钟音量：" + String.valueOf((int) (((float) rules.getClock()) / clock_max * 100)) + "%";
             }
 
 

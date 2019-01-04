@@ -61,12 +61,26 @@ public class Status extends LitePalSupport {
         firststatus.setRing_status(ring_status);
         firststatus.setClock_status(clock_status);
         long timeStamp = System.currentTimeMillis();
-        timeStamp += time * 1000 * 60 * 30;
+        timeStamp += time * 1000 * 60;
         firststatus.setEnd_time(timeStamp);
         firststatus.save();
         System.out.println(firststatus);
     }
 
+    public static int getEndTime()
+    {
+        Status status = null;
+        status = LitePal.findFirst(Status.class);
+        long timeStamp = System.currentTimeMillis();
+        if (status == null) {
+            return 0;
+        }
+        if (status.getEnd_time() < timeStamp) {
+            status.delete();
+            return 0;
+        }
+        return (int) ((status.getEnd_time()-timeStamp)/1000/60);
+    }
 
     public static int[] getStatus() {
         Status status = null;
