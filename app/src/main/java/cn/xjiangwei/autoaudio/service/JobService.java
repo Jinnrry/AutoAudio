@@ -3,11 +3,7 @@ package cn.xjiangwei.autoaudio.service;
 import android.app.job.JobParameters;
 import android.content.Context;
 import android.media.AudioManager;
-
-import java.util.Arrays;
-
 import cn.xjiangwei.autoaudio.Tools.Check;
-import cn.xjiangwei.autoaudio.db.Rules;
 
 public class JobService extends android.app.job.JobService {
 

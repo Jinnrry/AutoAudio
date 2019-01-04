@@ -1,11 +1,8 @@
 package cn.xjiangwei.autoaudio.Tools;
 
 
-import org.litepal.LitePal;
-
 import java.util.Arrays;
 import java.util.Calendar;
-
 import cn.xjiangwei.autoaudio.db.Rules;
 import cn.xjiangwei.autoaudio.db.Status;
 

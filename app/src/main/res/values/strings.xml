@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">智能音量</string>
     <string name="about">关于</string>
-
     <string name="add_rule">添加规则</string>
 </resources>

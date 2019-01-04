@@ -11,12 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.xjiangwei.autoaudio.Tools.Check;
-import cn.xjiangwei.autoaudio.db.Rules;
 import cn.xjiangwei.autoaudio.db.Status;
 import cn.xjiangwei.autoaudio.service.JobService;
 

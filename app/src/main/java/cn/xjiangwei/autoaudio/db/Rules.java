@@ -3,10 +3,8 @@ package cn.xjiangwei.autoaudio.db;
 import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import cn.xjiangwei.autoaudio.vo.Item;
 
 public class Rules extends LitePalSupport {

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.widget.Toast;
 
 
 import cn.xjiangwei.autoaudio.Tools.Check;
@@ -19,11 +20,7 @@ public class VolumeChangeBroadcastReceiver extends BroadcastReceiver {
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         }
         updateVolume();
-        Intent i = new Intent();
-        i.setClassName("cn.xjiangwei.autoaudio", "cn.xjiangwei.autoaudio.StartActivity");
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);
-
+        Toast.makeText(context, "请在智能音量中设置音量！", Toast.LENGTH_SHORT).show();
     }
 
 
