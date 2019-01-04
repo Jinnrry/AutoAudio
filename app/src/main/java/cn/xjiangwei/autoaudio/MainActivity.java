@@ -17,21 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
-
 import org.angmarch.views.NiceSpinner;
 import org.litepal.LitePal;
-
 import java.util.Arrays;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.xjiangwei.autoaudio.db.Rules;
-import cn.xjiangwei.autoaudio.service.JobService;
-import cn.xjiangwei.autoaudio.vo.Item;
 
-import static android.app.job.JobInfo.BACKOFF_POLICY_LINEAR;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -97,15 +90,11 @@ public class MainActivity extends AppCompatActivity {
                 addRule();
                 break;
             default:
-                add2();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void add2() {
-
-    }
 
 
     private void initView() {
