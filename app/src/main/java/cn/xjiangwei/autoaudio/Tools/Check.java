@@ -3,19 +3,17 @@ package cn.xjiangwei.autoaudio.Tools;
 
 import java.util.Arrays;
 import java.util.Calendar;
+
 import cn.xjiangwei.autoaudio.db.Rules;
 import cn.xjiangwei.autoaudio.db.Status;
 
 public class Check {
 
 
-
-
-
     public static int[] checkNow() {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
+        int month = c.get(Calendar.MONTH) + 1;
         int day = c.get(Calendar.DAY_OF_MONTH);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
@@ -29,7 +27,7 @@ public class Check {
 
         int[] ruleStatus = Rules.checkStatus(year, month, day, hour, minute, week);
 
-        if (tmpStatus!=null)
+        if (tmpStatus != null)
             return tmpStatus;
 
         return ruleStatus;

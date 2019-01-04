@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -157,7 +158,7 @@ public class StartActivity extends AppCompatActivity {
         builder.setPersisted(true);        //设置失败后重试间隔时间和策略
         builder.setRequiresDeviceIdle(true);        //设置任务的周期性
         builder.setMinimumLatency(0);
-        builder.setPeriodic(60 * 1000 * 15);
+        builder.setPeriodic(60 * 1000 * 5);
         JobScheduler mJobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         // 这里就将开始在service里边处理我们配置好的job
         mJobScheduler.schedule(builder.build());

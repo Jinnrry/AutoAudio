@@ -3,8 +3,10 @@ package cn.xjiangwei.autoaudio.db;
 import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import cn.xjiangwei.autoaudio.vo.Item;
 
 public class Rules extends LitePalSupport {
@@ -152,14 +154,28 @@ public class Rules extends LitePalSupport {
         int audio = -1;
         int clock = -1;
 
+        System.out.println("year = " + year);
+        System.out.println("month = " + month);
+        System.out.println("day = " + day);
+        System.out.println("hour = " + hour);
+        System.out.println("min = " + min);
+        System.out.println("week = " + week);
         List<Rules> rulesList = LitePal
-                .where("year = ? or year =0 ", String.valueOf(year))
-                .where("month = ? or month = 0", String.valueOf(month))
-                .where("day = ? or day = 0", String.valueOf(day))
-                .where("(hour <= ? and end_hour >=?) or (hour is null and end_hour is null)", String.valueOf(hour))
-                .where("(min <= ? and end_min >=?) or (min is null and end_min is null)", String.valueOf(min))
-                .where("week = ? or week = 0", String.valueOf(week))
-                .find(Rules.class);
+                .where("(year = ? or year <=0) " +
+                                "and (month = ? or month <= 0) " +
+                                "and (day = ? or day <= 0) " +
+                                "and ((hour <= ? and end_hour >=?) or (hour = -1 and end_hour = -1)) and " +
+                                "((min <= ? and end_min >=?) or (min = -1 and end_min = -1)) and " +
+                                "(week = ? or week <= 0)",
+                        String.valueOf(year),
+                        String.valueOf(month),
+                        String.valueOf(day),
+                        String.valueOf(hour),
+                        String.valueOf(hour),
+                        String.valueOf(min),
+                        String.valueOf(min),
+                        String.valueOf(week)
+                ).find(Rules.class);
         System.out.println("当前生效规则：");
         System.out.println(rulesList);
         for (Rules rule : rulesList) {
