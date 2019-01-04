@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 import cn.xjiangwei.autoaudio.Tools.Check;
 import cn.xjiangwei.autoaudio.Tools.DebugLog;
+import cn.xjiangwei.autoaudio.db.Status;
 
 public class VolumeChangeBroadcastReceiver extends BroadcastReceiver {
     private static final String EXTRA_VOLUME_STREAM_TYPE = "android.media.EXTRA_VOLUME_STREAM_TYPE";
@@ -22,34 +23,17 @@ public class VolumeChangeBroadcastReceiver extends BroadcastReceiver {
         if (audioManager == null) {
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         }
-        updateVolume(context);
+        int audio_value = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        int ring_value = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+        int clock_value = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
 
-    }
-
-
-    private void updateVolume(Context context) {
-
-
-        int audio, ring, clock;
-        audio = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        clock = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
-        ring = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-        int[] custor = Check.checkNow();
-
-        DebugLog.d("对比数据！");
-        DebugLog.d(Arrays.toString(new int[]{audio, ring, clock}));
-        DebugLog.d(Arrays.toString(custor));
-
-
-        if (custor[0] == audio && custor[1] == ring && custor[2] == clock) {
+        int[] status=Check.checkNow();
+        if (audio_value==status[0] && ring_value==status[1] && clock_value==status[2]){
             return;
         }
 
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, custor[0], 0);
-        audioManager.setStreamVolume(AudioManager.STREAM_RING, custor[1], 0);
-        audioManager.setStreamVolume(AudioManager.STREAM_ALARM, custor[2], 0);
-        Toast.makeText(context, "请在智能音量中设置音量！", Toast.LENGTH_SHORT).show();
-
+        Status.add(audio_value, ring_value, clock_value, 30);
+        Toast.makeText(context, "音量改变，该音量值保留半小时，如需修改时间请到智能音量设置", Toast.LENGTH_SHORT).show();
     }
 
 
