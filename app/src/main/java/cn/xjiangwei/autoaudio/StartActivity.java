@@ -160,7 +160,7 @@ public class StartActivity extends AppCompatActivity {
         builder.setPersisted(true);        //设置失败后重试间隔时间和策略
         builder.setRequiresDeviceIdle(true);        //设置任务的周期性
         builder.setMinimumLatency(0);
-        builder.setPeriodic(1000 * 5);
+        builder.setPeriodic(60 * 1000 * 15);
         JobScheduler mJobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         // 这里就将开始在service里边处理我们配置好的job
         mJobScheduler.schedule(builder.build());
