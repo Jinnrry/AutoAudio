@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingLeft="30dp">
 
@@ -16,6 +17,7 @@
 
         <org.angmarch.views.NiceSpinner
             android:id="@+id/year"
+            app:dropDownListPaddingBottom="100dp"
             android:layout_width="100dp"
             android:layout_height="wrap_content" />
 
@@ -27,14 +29,14 @@
         <org.angmarch.views.NiceSpinner
             android:id="@+id/month"
             android:layout_width="100dp"
+            app:dropDownListPaddingBottom="100dp"
             android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
 
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,6 +46,7 @@
         <org.angmarch.views.NiceSpinner
             android:id="@+id/week"
             android:layout_width="100dp"
+            app:dropDownListPaddingBottom="100dp"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -54,6 +57,7 @@
 
         <org.angmarch.views.NiceSpinner
             android:id="@+id/day"
+            app:dropDownListPaddingBottom="100dp"
             android:layout_width="100dp"
             android:layout_height="wrap_content" />
     </android.support.v7.widget.LinearLayoutCompat>
@@ -62,8 +66,7 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="30dp">
+        android:layout_marginLeft="20dp">
 
         <EditText
             android:id="@+id/hour"
@@ -83,7 +86,7 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp">
 
         <EditText
@@ -118,13 +121,13 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:max="100"
-            android:progress="10" />
+            android:progress="0" />
 
         <TextView
             android:id="@+id/form_audio_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100%" />
+            android:text="0%" />
     </LinearLayout>
 
     <LinearLayout
@@ -142,13 +145,13 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:max="100"
-            android:progress="10" />
+            android:progress="0" />
 
         <TextView
             android:id="@+id/form_ring_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100%" />
+            android:text="0%" />
     </LinearLayout>
 
     <LinearLayout
@@ -166,13 +169,13 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:max="100"
-            android:progress="10" />
+            android:progress="0" />
 
         <TextView
             android:id="@+id/form_clock_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100%" />
+            android:text="0%" />
     </LinearLayout>
 
 
