@@ -3,8 +3,10 @@ package cn.xjiangwei.autoaudio;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,9 +20,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 import org.angmarch.views.NiceSpinner;
 import org.litepal.LitePal;
+
 import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.xjiangwei.autoaudio.db.Rules;
@@ -59,13 +64,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbarTb);
 
 
-
     }
 
 
     private void initData() {
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mAdapter = new NormalRecyclerViewAdapter(Rules.getList(audio_max,ring_max,clock_max));
+        mAdapter = new NormalRecyclerViewAdapter(Rules.getList(audio_max, ring_max, clock_max));
         mAdapter.setOnItemClickListener(new NormalRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onClick(long id) {
@@ -93,11 +97,34 @@ public class MainActivity extends AppCompatActivity {
                 addRule();
                 break;
             default:
+                about();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void about() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("About");
+        builder.setMessage("这是一个完全开源免费的软件！\n Github:https://github.com/jiangwei1995910/AutoAudio");
+
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.setPositiveButton("提建议", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse("https://github.com/jiangwei1995910/AutoAudio/issues/new");
+                intent.setData(content_url);
+                startActivity(intent);
+            }
+        });
+        builder.show();
+    }
 
 
     private void initView() {
@@ -221,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
                     iend_min = -1;
                 }
                 Rules.addRules(iyear, imonth, iday, ihour, imin, iend_hour, iend_min, iweek, iaudio_value, iring_value, iclock_value);
-                mAdapter.updateData(Rules.getList(audio_max,ring_max,clock_max));
+                mAdapter.updateData(Rules.getList(audio_max, ring_max, clock_max));
             }
         });
         customizeDialog.show();
@@ -240,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
                         LitePal.find(Rules.class, id).delete();
-                        mAdapter.updateData(Rules.getList(audio_max,ring_max,clock_max));
+                        mAdapter.updateData(Rules.getList(audio_max, ring_max, clock_max));
                     }
                 });
         normalDialog.setNegativeButton("关闭",
