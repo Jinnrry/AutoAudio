@@ -137,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void addRule() {
+        iaudio_value = 0;
+        iring_value = 0;
+        iclock_value = 0;
         AlertDialog.Builder customizeDialog = new AlertDialog.Builder(MainActivity.this);
         final View dialogView = LayoutInflater.from(MainActivity.this).inflate(R.layout.form, null);
         customizeDialog.setView(dialogView);
